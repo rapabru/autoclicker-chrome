@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Página de Prueba - AutoClicker Pro</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0b0f19;
+      color: #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 620px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    h1 {
+      margin-bottom: 8px;
+      color: #38bdf8;
+    }
+    p {
+      color: #94a3b8;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+    .tab-status-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #090d16;
+      border: 1px solid #334155;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+    }
+    .counter-display {
+      font-size: 64px;
+      font-weight: 800;
+      color: #10b981;
+      margin: 10px 0;
+      font-variant-numeric: tabular-nums;
+      transition: transform 0.05s ease;
+    }
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .cps-badge {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid #38bdf8;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .bg-clicks-badge {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid #10b981;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .btn-target {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      border: none;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 16px 36px;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+      transition: all 0.1s ease;
+      margin: 8px;
+    }
+    .btn-target:active {
+      transform: scale(0.96);
+    }
+    .targets-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .btn-sec {
+      background: #334155;
+      color: white;
+      border: 1px solid #475569;
+      font-size: 14px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn-sec:hover {
+      background: #475569;
+    }
+    .log-box {
+      margin-top: 24px;
+      background: #090d16;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 12px;
+      height: 120px;
+      overflow-y: auto;
+      text-align: left;
+      font-family: monospace;
+      font-size: 12px;
+      color: #a5f3fc;
+    }
+    .reset-btn {
+      margin-top: 12px;
+      background: transparent;
+      border: none;
+      color: #ef4444;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 13px;
+    }
+    .tip-box {
+      margin-top: 20px;
+      background: rgba(79, 70, 229, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #c7d2fe;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 Prueba de AutoClicker Pro</h1>
+    <p>Verifica que los clics continúan funcionando incluso cuando cambias de pestaña o minimizas Chrome.</p>
+
+    <div class="tab-status-box">
+      <span class="status-dot" id="status-dot"></span>
+      <span id="tab-status-text">Pestaña Activa y Visible</span>
+    </div>
+
+    <div class="counter-display" id="counter">0</div>
+
+    <div class="stats-row">
+      <div class="cps-badge" id="cps-badge">0.0 Clics / Seg</div>
+      <div class="bg-clicks-badge" id="bg-badge">Clics en 2do Plano: 0</div>
+    </div>
+
+    <div class="targets-row">
+      <button id="main-click-btn" class="btn-target">
+        👆 ¡Haz Clic Aquí!
+      </button>
+    </div>
+
+    <div class="targets-row">
+      <button id="right-click-btn" class="btn-sec">
+        🖱️ Clic Derecho aquí
+      </button>
+      <button id="double-click-btn" class="btn-sec">
+        ⚡ Doble Clic aquí
+      </button>
+    </div>
+
+    <div>
+      <button id="btn-reset" class="reset-btn">Reiniciar contador a 0</button>
+    </div>
+
+    <div class="log-box" id="log-box">
+      [00:00:00] Listo. Esperando clics...<br>
+    </div>
+
+    <div class="tip-box">
+      👀 <strong>Prueba de Segundo Plano:</strong> Inicia el AutoClicker y cambia a otra pestaña de Chrome.<br>
+      Mira el <strong>título de esta pestaña</strong> en la barra superior: verás cómo los números <code>(120) ⚡...</code> siguen subiendo en tiempo real sin detenerse.
+    </div>
+  </div>
+
+  <script>
+    let count = 0;
+    let bgCount = 0;
+    let isHidden = document.hidden;
+    const counterEl = document.getElementById('counter');
+    const cpsBadgeEl = document.getElementById('cps-badge');
+    const bgBadgeEl = document.getElementById('bg-badge');
+    const logBox = document.getElementById('log-box');
+    const mainBtn = document.getElementById('main-click-btn');
+    const rightBtn = document.getElementById('right-click-btn');
+    const dblBtn = document.getElementById('double-click-btn');
+    const resetBtn = document.getElementById('btn-reset');
+    const statusDot = document.getElementById('status-dot');
+    const tabStatusText = document.getElementById('tab-status-text');
+
+    let recentClicks = [];
+
+    function updateVisibilityUI() {
+      isHidden = document.hidden;
+      if (isHidden) {
+        statusDot.style.background = '#eab308';
+        statusDot.style.boxShadow = '0 0 8px #eab308';
+        tabStatusText.textContent = 'Pestaña en Segundo Plano (Oculta)';
+      } else {
+        statusDot.style.background = '#10b981';
+        statusDot.style.boxShadow = '0 0 8px #10b981';
+        tabStatusText.textContent = 'Pestaña Activa y Visible';
+      }
+    }
+
+    document.addEventListener('visibilitychange', updateVisibilityUI);
+    window.addEventListener('blur', () => { isHidden = true; updateVisibilityUI(); });
+    window.addEventListener('focus', () => { isHidden = false; updateVisibilityUI(); });
+
+    function addLog(msg) {
+      const now = new Date().toTimeString().split(' ')[0];
+      logBox.innerHTML = `[${now}] ${msg}<br>` + logBox.innerHTML;
+    }
+
+    function recordClick(type) {
+      count++;
+      if (document.hidden || isHidden) {
+        bgCount++;
+      }
+      counterEl.textContent = count.toLocaleString();
+      bgBadgeEl.textContent = `Clics en 2do Plano: ${bgCount.toLocaleString()}`;
+      
+      const now = Date.now();
+      recentClicks.push(now);
+      recentClicks = recentClicks.filter(t => now - t <= 1000);
+      cpsBadgeEl.textContent = `${recentClicks.length.toFixed(1)} Clics / Seg`;
+      
+      addLog(`Clic recibido (${type}) ${document.hidden ? '[EN 2DO PLANO]' : ''} - Total: ${count}`);
+    }
+
+    mainBtn.addEventListener('click', (e) => {
+      recordClick('Izquierdo');
+    });
+
+    rightBtn.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      recordClick('Derecho / Contextmenu');
+    });
+
+    dblBtn.addEventListener('dblclick', (e) => {
+      recordClick('Doble Clic');
+    });
+
+    resetBtn.addEventListener('click', () => {
+      count = 0;
+      bgCount = 0;
+      counterEl.textContent = '0';
+      bgBadgeEl.textContent = 'Clics en 2do Plano: 0';
+      recentClicks = [];
+      cpsBadgeEl.textContent = '0.0 Clics / Seg';
+      logBox.innerHTML = '[00:00:00] Contador reiniciado.<br>';
+    });
+
+    setInterval(() => {
+      const now = Date.now();
+      recentClicks = recentClicks.filter(t => now - t <= 1000);
+      cpsBadgeEl.textContent = `${recentClicks.length.toFixed(1)} Clics / Seg`;
+    }, 500);
+  </script>
+</body>
+</html>

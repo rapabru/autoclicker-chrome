@@ -1,0 +1,20 @@
+{
+  "name": "autoclicker-chrome-pro",
+  "version": "1.0.0",
+  "description": "Autoclicker para Google Chrome con blindaje de ejecución en segundo plano y sin bloqueo del cursor del sistema.",
+  "main": "content.js",
+  "scripts": {
+    "generate-icons": "python generate_icons.py"
+  },
+  "keywords": [
+    "autoclicker",
+    "chrome-extension",
+    "manifest-v3",
+    "background-tab",
+    "web-worker",
+    "dom-events",
+    "javascript"
+  ],
+  "author": "rapabru",
+  "license": "MIT"
+}

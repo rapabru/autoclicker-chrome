@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "AutoClicker Pro (Background / No Mouse Lock)",
+  "version": "1.0.0",
+  "description": "Autoclicker para Chrome que funciona en segundo plano sin bloquear el ratón ni interferir con Windows u otras pestañas.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_title": "AutoClicker Pro",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "toggle-autoclicker": {
+      "suggested_key": {
+        "default": "Alt+C"
+      },
+      "description": "Mostrar u ocultar el panel del AutoClicker"
+    }
+  }
+}
